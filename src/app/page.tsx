@@ -1,9 +1,9 @@
+import { Room } from './Room';
 
 export default async function Home() {
-
   return (
-    <div>
-      Hello world
-    </div>
+    <Room>
+      <h1>Hello World</h1>
+    </Room>
   );
 }
