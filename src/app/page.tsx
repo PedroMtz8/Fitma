@@ -1,11 +1,9 @@
-import { CollaborativeApp } from './CollaborativeApp';
 import { Room } from './Room';
 
 export default async function Home() {
-
   return (
     <Room>
-      <CollaborativeApp />
+      <h1>Hello World</h1>
     </Room>
   );
 }
