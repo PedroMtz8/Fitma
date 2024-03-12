@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Work_Sans } from "next/font/google";
 import "./globals.css";
+import { Room } from './Room';
 
 const workSans = Work_Sans({ 
   subsets: ["latin"],
@@ -20,7 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${workSans.className}  `}>{children}</body>
+      <body suppressHydrationWarning className={`${workSans.className} bg-primary-grey `}>
+        <Room>
+          {children}
+        </Room>
+      </body>
     </html>
   );
 }
