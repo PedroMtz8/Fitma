@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body suppressHydrationWarning className={`${workSans.className} bg-primary-grey `}>
+      <body suppressHydrationWarning className={`${workSans.className} bg-primary-grey-200 `}>
         <Room>
           {children}
         </Room>
