@@ -1,7 +1,8 @@
-import { createClient } from "@liveblocks/client";
-import { createRoomContext, createLiveblocksContext } from "@liveblocks/react";
+import { LiveMap, createClient } from "@liveblocks/client";
+import { createLiveblocksContext, createRoomContext } from "@liveblocks/react";
 
 const client = createClient({
+  throttle: 16,
   publicApiKey: process.env.NEXT_PUBLIC_LIVEBLOCKS_PUBLIC_KEY!,
   // authEndpoint: "/api/liveblocks-auth",
   // throttle: 100,
@@ -97,7 +98,6 @@ export const {
     useSelf,
     useOthers,
     useOthersMapped,
-    useOthersListener,
     useOthersConnectionIds,
     useOther,
     useBroadcastEvent,
@@ -117,6 +117,7 @@ export const {
     useStatus,
     useLostConnectionListener,
     useThreads,
+    // useUser,
     useCreateThread,
     useEditThreadMetadata,
     useCreateComment,
@@ -124,15 +125,7 @@ export const {
     useDeleteComment,
     useAddReaction,
     useRemoveReaction,
-    useThreadSubscription,
-    useMarkThreadAsRead,
-    useRoomNotificationSettings,
-    useUpdateRoomNotificationSettings,
-
-    // These hooks can be exported from either context
-    // useUser,
-    // useRoomInfo
-  }
+  },
 } = createRoomContext<Presence, Storage, UserMeta, RoomEvent, ThreadMetadata>(client);
 
 // Project-level hooks, use inside `LiveblocksProvider`
