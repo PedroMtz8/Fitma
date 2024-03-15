@@ -1,9 +1,9 @@
-import { Room } from './Room';
+import Live from '@/components/Live';
 
 export default async function Home() {
   return (
-    <Room>
-      <h1>Hello World</h1>
-    </Room>
+    <div >
+      <Live />
+    </div>
   );
 }
