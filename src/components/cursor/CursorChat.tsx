@@ -11,7 +11,7 @@ export default function CursorChat({ cursor, cursorState, setCursorState, update
     })
     setCursorState({
       mode: CursorMode.Chat,
-      previousMessage: null,
+      previousMessage: '',
       message: e.target.value,
     })
   }
@@ -19,9 +19,10 @@ export default function CursorChat({ cursor, cursorState, setCursorState, update
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
 
     if(e.key === 'Enter') {
+      
       setCursorState({
         mode: CursorMode.Chat,
-        previousMessage: cursorState.message,
+        previousMessage: cursorState.mode === CursorMode.Chat ? cursorState.message : null,
         message: '',
       })
     } else if (e.key === 'Escape') {
