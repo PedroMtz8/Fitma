@@ -1,12 +1,12 @@
 'use client';
-import React, { useCallback, useEffect, useState } from 'react'
-import LiveCursors from './cursor/LiveCursors'
-import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '../../liveblocks.config'
-import CursorChat from './cursor/CursorChat';
-import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
-import ReactionSelector from './reaction/ReactionButton';
-import FlyingReaction from './reaction/FlyingReaction';
 import useInterval from '@/hooks/useInterval';
+import CursorChat from '@components/cursor/CursorChat';
+import LiveCursors from '@components/cursor/LiveCursors';
+import React, { useCallback, useEffect, useState } from 'react';
+import FlyingReaction from '@components/reaction/FlyingReaction';
+import ReactionSelector from '@components/reaction/ReactionButton';
+import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
+import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '../../liveblocks.config'
 
 export default function Live() {
   const others = useOthers();
@@ -18,6 +18,10 @@ export default function Live() {
   const [reaction, setReaction] = useState<Reaction[]>([]);
 
   const broadcast = useBroadcastEvent();
+
+  useInterval(() => {
+    setReaction((reactions) => reactions.filter((r) => r.timestamp > Date.now() - 4000 ))
+  }, 1000)
 
   useInterval(() => {
     if(cursorState.mode === CursorMode.Reaction && cursorState.isPressed && cursor){
