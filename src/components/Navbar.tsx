@@ -7,7 +7,7 @@ import { NavbarProps } from "@/types/type";
 
 import ActiveUsers from '@components/users/ActiveUsers';
 
-function Navbar ({ activeElement }: NavbarProps) {
+function Navbar (/* { activeElement }: NavbarProps */) {
 
 
   return (
@@ -19,4 +19,4 @@ function Navbar ({ activeElement }: NavbarProps) {
   );
 };
 
-export default memo(Navbar, (prevProps, nextProps) => prevProps.activeElement === nextProps.activeElement);
+export default memo(Navbar/* , (prevProps, nextProps) => prevProps.activeElement === nextProps.activeElement */);
