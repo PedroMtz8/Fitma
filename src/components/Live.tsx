@@ -8,7 +8,11 @@ import ReactionSelector from '@components/reaction/ReactionButton';
 import { CursorMode, CursorState, Reaction, ReactionEvent } from '@/types/type';
 import { useBroadcastEvent, useEventListener, useMyPresence, useOthers } from '../../liveblocks.config'
 
-export default function Live() {
+type Props = {
+  canvasRef: React.MutableRefObject<HTMLCanvasElement | null> ;
+}
+
+export default function Live({ canvasRef }: Props) {
   const others = useOthers();
 
   const [{ cursor }, updateMyPresence] = useMyPresence() as any;
@@ -158,14 +162,16 @@ export default function Live() {
 
   return (
     <div
+      id="canvas"
       className='h-[100vh] w-full flex justify-center items-center text-center '
       onPointerMove={handlePointerMove}
       onPointerLeave={handlePointerLeave}
       onPointerUp={handlePointerUp}
       onPointerDown={handlePointerDown}
     >
-      <h1 className='text-2xl text-white'>Hello World</h1>
-
+      <canvas 
+        ref={canvasRef}
+      />
       {
         reaction.map((r, index) => (
           <FlyingReaction 
