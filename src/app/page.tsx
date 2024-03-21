@@ -17,21 +17,21 @@ export default function Home() {
   const selectedShapeRef = useRef<string | null>('rectangle');
 
   useEffect(() => {
-    const canvas = initializeFabric({ canvasRef, fabricRef });
+    // const canvas = initializeFabric({ canvasRef, fabricRef });
 
-    canvas.on('mouse:down', (options) => {
-      handleCanvasMouseDown({ 
-        options,
-        canvas,
-        isDrawing,
-        shapeRef,
-        selectedShapeRef,
-      });
-    });
+    // canvas.on('mouse:down', (options) => {
+    //   handleCanvasMouseDown({ 
+    //     options,
+    //     canvas,
+    //     isDrawing,
+    //     shapeRef,
+    //     selectedShapeRef,
+    //   });
+    // });
 
-    window.addEventListener('resize', () => {
-      handleResize({ canvas: fabricRef.current });
-    });
+    // window.addEventListener('resize', () => {
+    //   handleResize({ canvas: fabricRef.current });
+    // });
   }, []);
 
   return (
