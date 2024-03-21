@@ -10,14 +10,14 @@ const nextConfig = {
     return config;
   },
   images: {
-    domains: ['liveblocks.io'],
-    // remotePatterns: [
-    //   {
-    //     protocol: 'https:',
-    //     hostname: 'liveblocks.io',
-    //     port: ''
-    //   }
-    // ]
+    // domains: ['liveblocks.io'],
+    remotePatterns: [
+      {
+        protocol: 'https:',
+        hostname: 'liveblocks.io',
+        port: ''
+      }
+    ]
   }
 };
 
