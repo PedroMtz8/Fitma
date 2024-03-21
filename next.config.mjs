@@ -18,7 +18,10 @@ const nextConfig = {
     //     port: '3000'
     //   }
     // ]
-  }
+  },
+  experimental: {
+    serverComponentsExternalPackages: ['fabric'],
+  },
 };
 
 export default nextConfig;
