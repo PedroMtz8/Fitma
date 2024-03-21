@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { fabric } from 'fabric';
 import Live from '@/components/Live';
 import Navbar from '@/components/Navbar';
@@ -8,6 +8,7 @@ import RightSidebar from '@/components/RightSidebar';
 import { handleCanvasMouseDown, handleResize, initializeFabric } from '@/lib/canvas';
 
 export default function Home() {
+  const [isLoaded, setIsLoaded] = useState(false);
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fabricRef = useRef<fabric.Canvas | null>(null);
@@ -33,6 +34,12 @@ export default function Home() {
       handleResize({ canvas: fabricRef.current });
     });
   }, []);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
+
+  if (!isLoaded) return null;
 
   return (
     <main className='h-screen overflow-hidden ' >
