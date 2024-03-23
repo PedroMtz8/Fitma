@@ -11,8 +11,8 @@ const ShapesMenu = ({
   item,
   activeElement,
   handleActiveElement,
-  handleImageUpload,
-  imageInputRef,
+  // handleImageUpload,
+  // imageInputRef,
 }: ShapesMenuProps) => {
   const isDropdownElem = item.value.some((elem) => elem?.value === activeElement.value);
 
@@ -65,9 +65,9 @@ const ShapesMenu = ({
       <input
         type="file"
         className="hidden"
-        ref={imageInputRef}
+        // ref={imageInputRef}
         accept="image/*"
-        onChange={handleImageUpload}
+        // onChange={handleImageUpload}
       />
     </>
   );

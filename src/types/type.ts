@@ -101,8 +101,8 @@ export type RightSidebarProps = {
 
 export type NavbarProps = {
   activeElement: ActiveElement;
-  imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
-  handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  // imageInputRef: React.MutableRefObject<HTMLInputElement | null>;
+  // handleImageUpload: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleActiveElement: (element: ActiveElement) => void;
 };
 
@@ -114,8 +114,8 @@ export type ShapesMenuProps = {
   };
   activeElement: any;
   handleActiveElement: any;
-  handleImageUpload: any;
-  imageInputRef: any;
+  // handleImageUpload: any;
+  // imageInputRef: any;
 };
 
 export type Presence = any;
