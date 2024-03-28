@@ -84,11 +84,22 @@ export default function Home() {
         activeObjectRef,
       });
     });
+    
 
     window.addEventListener('resize', () => {
       handleResize({ canvas: fabricRef.current });
     });
   }, []);
+
+  useEffect(() => {
+
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      activeObjectRef,
+    })
+
+  }, [canvasObjects]);
 
 
   return (
