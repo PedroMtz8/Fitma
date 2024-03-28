@@ -5,7 +5,7 @@ import Live from '@/components/Live';
 import Navbar from '@/components/Navbar';
 import LeftSidebar from '@/components/LeftSidebar';
 import RightSidebar from '@/components/RightSidebar';
-import { handleCanvasMouseDown, handleResize, initializeFabric } from '@/lib/canvas';
+import { handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp, handleResize, initializeFabric, renderCanvas } from '@/lib/canvas';
 import { ActiveElement } from '@/types/type';
 import { useMutation, useStorage } from '../../liveblocks.config';
 
@@ -15,6 +15,7 @@ export default function Home() {
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawing = useRef(false);
 
+  const activeObjectRef = useRef<fabric.Object | null>(null);
   const shapeRef = useRef<fabric.Object | null>(null);
   const selectedShapeRef = useRef<string | null>('rectangle');
   const [activeElement, setActiveElement] = useState<ActiveElement>({
@@ -49,12 +50,38 @@ export default function Home() {
     const canvas = initializeFabric({ canvasRef, fabricRef });
 
     canvas.on('mouse:down', (options) => {
+      console.log('mouse:down');
       handleCanvasMouseDown({ 
         options,
         canvas,
         isDrawing,
         shapeRef,
         selectedShapeRef,
+      });
+    });
+
+    canvas.on('mouse:move', (options) => {
+      console.log('mouse:move');
+      handleCanvasMouseMove({ 
+        options,
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage
+      });
+    });
+
+    canvas.on('mouse:up', (options) => {
+      console.log('mouse:up');
+      handleCanvasMouseUp({ 
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage,
+        setActiveElement,
+        activeObjectRef,
       });
     });
 
