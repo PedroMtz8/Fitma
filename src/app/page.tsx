@@ -5,9 +5,11 @@ import Live from '@/components/Live';
 import Navbar from '@/components/Navbar';
 import LeftSidebar from '@/components/LeftSidebar';
 import RightSidebar from '@/components/RightSidebar';
-import { handleCanvasMouseDown, handleResize, initializeFabric } from '@/lib/canvas';
+import { handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp, handleCanvasObjectModified, handleResize, initializeFabric, renderCanvas } from '@/lib/canvas';
 import { ActiveElement } from '@/types/type';
 import { useMutation, useStorage } from '../../liveblocks.config';
+import { defaultNavElement } from '@/constants';
+import { handleDelete } from '@/lib/key-events';
 
 export default function Home() {
 
@@ -15,6 +17,7 @@ export default function Home() {
   const fabricRef = useRef<fabric.Canvas | null>(null);
   const isDrawing = useRef(false);
 
+  const activeObjectRef = useRef<fabric.Object | null>(null);
   const shapeRef = useRef<fabric.Object | null>(null);
   const selectedShapeRef = useRef<string | null>('rectangle');
   const [activeElement, setActiveElement] = useState<ActiveElement>({
@@ -38,9 +41,40 @@ export default function Home() {
     canvasObjects.set(objectId, shapeData);
   },[])
 
+  const deleteAllShapes = useMutation(({ storage }) => {
+    const canvasObjects = storage.get('canvasObjects');
+    if(!canvasObjects || canvasObjects.size === 0) return true;
+    // canvasObjects.clear();
+
+    for(const [key, value] of canvasObjects.entries()) {
+      canvasObjects.delete(key);
+    }
+    return canvasObjects.size === 0;
+  },[]);
+
+  const deleteShapeFromStorage = useMutation(({ storage }, objectId: string) => {
+    const canvasObjects = storage.get('canvasObjects');
+    if(!canvasObjects) return;
+
+    canvasObjects.delete(objectId);
+  },[]);
 
   const handleActiveElement = (elem: ActiveElement) => {
     setActiveElement(elem);
+
+    switch (elem?.value) {
+      case 'reset':
+        deleteAllShapes();
+        fabricRef.current?.clear();
+        setActiveElement(defaultNavElement);
+        break;
+      case 'delete':
+        handleDelete(fabricRef.current as any, deleteShapeFromStorage);
+        setActiveElement(defaultNavElement);
+      default:
+        break;
+    }
+
     selectedShapeRef.current = elem?.value as string;
   }
 
@@ -49,6 +83,7 @@ export default function Home() {
     const canvas = initializeFabric({ canvasRef, fabricRef });
 
     canvas.on('mouse:down', (options) => {
+      console.log('mouse:down');
       handleCanvasMouseDown({ 
         options,
         canvas,
@@ -58,10 +93,57 @@ export default function Home() {
       });
     });
 
+    canvas.on('mouse:move', (options) => {
+      console.log('mouse:move');
+      handleCanvasMouseMove({ 
+        options,
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage
+      });
+    });
+
+    canvas.on('mouse:up', (options) => {
+      console.log('mouse:up');
+      handleCanvasMouseUp({ 
+        canvas,
+        isDrawing,
+        shapeRef,
+        selectedShapeRef,
+        syncShapeInStorage,
+        setActiveElement,
+        activeObjectRef,
+      });
+    });
+    
+    canvas.on('object:modified', (options) => {
+      handleCanvasObjectModified({
+        options,
+        syncShapeInStorage,
+      })
+    });
+
     window.addEventListener('resize', () => {
       handleResize({ canvas: fabricRef.current });
     });
+
+    return () => {
+      canvas.dispose();
+    }
+
   }, []);
+
+  useEffect(() => {
+
+    renderCanvas({
+      fabricRef,
+      canvasObjects,
+      activeObjectRef,
+    })
+
+  }, [canvasObjects]);
 
 
   return (
