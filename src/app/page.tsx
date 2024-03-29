@@ -9,6 +9,7 @@ import { handleCanvasMouseDown, handleCanvasMouseMove, handleCanvasMouseUp, hand
 import { ActiveElement } from '@/types/type';
 import { useMutation, useStorage } from '../../liveblocks.config';
 import { defaultNavElement } from '@/constants';
+import { handleDelete } from '@/lib/key-events';
 
 export default function Home() {
 
@@ -51,6 +52,13 @@ export default function Home() {
     return canvasObjects.size === 0;
   },[]);
 
+  const deleteShapeFromStorage = useMutation(({ storage }, objectId: string) => {
+    const canvasObjects = storage.get('canvasObjects');
+    if(!canvasObjects) return;
+
+    canvasObjects.delete(objectId);
+  },[]);
+
   const handleActiveElement = (elem: ActiveElement) => {
     setActiveElement(elem);
 
@@ -60,7 +68,9 @@ export default function Home() {
         fabricRef.current?.clear();
         setActiveElement(defaultNavElement);
         break;
-      // case
+      case 'delete':
+        handleDelete(fabricRef.current as any, deleteShapeFromStorage);
+        setActiveElement(defaultNavElement);
       default:
         break;
     }
@@ -118,6 +128,11 @@ export default function Home() {
     window.addEventListener('resize', () => {
       handleResize({ canvas: fabricRef.current });
     });
+
+    return () => {
+      canvas.dispose();
+    }
+
   }, []);
 
   useEffect(() => {
