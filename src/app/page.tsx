@@ -46,7 +46,7 @@ export default function Home() {
     if(!canvasObjects || canvasObjects.size === 0) return true;
     // canvasObjects.clear();
 
-    for(const [key, value] of canvasObjects.entries()) {
+    for(const [key, value] of canvasObjects.entries() as any) {
       canvasObjects.delete(key);
     }
     return canvasObjects.size === 0;
