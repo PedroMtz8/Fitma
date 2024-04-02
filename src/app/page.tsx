@@ -105,7 +105,7 @@ export default function Home() {
       });
     });
 
-    canvas.on('mouse:up', (options) => {
+    canvas.on('mouse:up', () => {
       console.log('mouse:up');
       handleCanvasMouseUp({ 
         canvas,
@@ -133,6 +133,7 @@ export default function Home() {
       canvas.dispose();
     }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
