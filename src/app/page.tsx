@@ -44,7 +44,6 @@ export default function Home() {
   const deleteAllShapes = useMutation(({ storage }) => {
     const canvasObjects = storage.get('canvasObjects');
     if(!canvasObjects || canvasObjects.size === 0) return true;
-    // canvasObjects.clear();
 
     for(const [key, value] of canvasObjects.entries() as any) {
       canvasObjects.delete(key);
@@ -74,10 +73,8 @@ export default function Home() {
       default:
         break;
     }
-
     selectedShapeRef.current = elem?.value as string;
   }
-
 
   useEffect(() => {
     const canvas = initializeFabric({ canvasRef, fabricRef });
@@ -145,7 +142,6 @@ export default function Home() {
     })
 
   }, [canvasObjects]);
-
 
   return (
     <main className='h-screen overflow-hidden ' >
